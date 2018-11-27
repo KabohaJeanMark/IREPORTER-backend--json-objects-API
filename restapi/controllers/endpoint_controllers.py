@@ -80,6 +80,20 @@ def new_incident():
             'message': 'Successfully added incident'
         })
 
+def get_all_incidents():
+    return jsonify({
+            'data' : incidents,
+            'status': 200,
+            'message': 'Successfully returned all incidents'
+        })
+
+def get_one_incident(redflagid):
+    incident = [incident for incident in incidents if incident['iid'] == redflagid]
+    return jsonify({'data': incident[0]})
+
+
+
+
 """
 def add_redflag():
     redFlag = RedFlags()
