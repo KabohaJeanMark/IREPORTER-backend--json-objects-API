@@ -24,19 +24,11 @@ class Incidents:
         self.comment = comment
 
 incidents = []
-"""
+
 class RedFlags(Incidents):
-    def __init__(self,created_on="",created_by="",incident_type="",location="",status="",images="",videos="",comment="",red_flag=""):
-        super.__init__(created_on="",created_by="",incident_type="",location="",status="",images="",videos="",comment="")
-
-        self.red_flag= red_flag
-
+   pass
 
 
 class Interventions(Incidents):
-    def __init__(self,created_on="",created_by="",incident_type="",location="",status="",images="",videos="",comment="", interventions=""):
-        super.__init__(created_on="",created_by="",incident_type="",location="",status="",images="",videos="",comment="")
-
-        self.interventions= intervention
-"""     
+   pass
 
