@@ -22,13 +22,26 @@ class RedFlagsController():
             })
         data = request.get_json()
         created_by = data.get("created_by")
-        incident_type = data.get("incident_type")
-        status = data.get("status")
+        incident_type = str(data.get("incident_type")).lower()
+        status = "draft"
         redflag_id = len(IncidentsList.incident_list) + 1
         images = data.get("images")
         videos = data.get("videos")
         comment = data.get("comment")
         location = data.get("location")
+
+        types_of_incidents = ['redflag','intervention']
+
+        if not incident_type or not status or not images or not videos or not comment or not location:
+            return jsonify({
+                "status": "404",
+                "message": "Required fields are missing. Either created_by, incident_type, images, videos, comment or location"
+            }) 
+        if incident_type not in types_of_incidents:
+            return jsonify({
+                "status": "404",
+                "message": "the incident should be either a redflag or intervention"
+            })
 
         if not isinstance(location, dict):
             return jsonify({
@@ -41,10 +54,10 @@ class RedFlagsController():
                 "message": "Images or videos should be in lists"
             })
 
-        if not isinstance (comment, str) or not isinstance (status, str):
+        if not isinstance (comment, str):
             return jsonify({
                 "status": "404",
-                "message": "Images or videos should be in lists"
+                "message": "The comment should be of type string"
             })
         
             
@@ -74,14 +87,6 @@ class RedFlagsController():
         })
 
     def get_a_single_redflag(self, redflag_id):
-        print(redflag_id)
-        print(validation.is_id_int(redflag_id))
-
-        if validation.is_id_int(redflag_id) == False:
-            return jsonify({
-                "status": 400,
-                "message": "The id should be an integer"
-            })
         red = IncidentsList.get_one_redflag_by_id(redflag_id)
         if red:
 
@@ -91,6 +96,7 @@ class RedFlagsController():
             })
         else:
             return jsonify({
+            
                 "status": 400,
                 "message": "That red-flag id is not found"
             })
