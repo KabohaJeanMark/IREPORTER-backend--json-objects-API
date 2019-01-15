@@ -13,6 +13,8 @@ class TestEndpoints(unittest.TestCase):
     def tearDown(self):
         IncidentsList.incident_list.clear()
 
+
+
     def test_posts_incident(self):
     
         data = {
