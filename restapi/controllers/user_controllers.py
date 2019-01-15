@@ -13,22 +13,23 @@ class UserController:
     def create_users(self):
         data = request.get_json()
 
-        first_name = data["first_name"]
-        last_name = data["last_name"]
-        other_names = data["other_names"]
+        first_name = data.get("first_name")
+        last_name = data.get("last_name")
+        other_names = data.get("other_names")
         phone_number = str(data.get("phone_number"))
         user_id = len(UsersList.user_list) + 1
         user_name = data.get("user_name")
         str(user_name).replace(" ", "")
         email = data.get("email")
-        is_admin = data.get("is_admin")
+        is_admin = False
+
 
         if not isinstance(first_name, str) or not isinstance(last_name, str) or not isinstance(other_names,str):
             return jsonify({
                 "status": "404",
                 "message": "All the names have to be of type string"
             })
-        
+
         if len(phone_number) < 10:
             return jsonify({
                 "status": "404",
@@ -37,7 +38,7 @@ class UserController:
         if not re.match("[0-9]", phone_number):
             return jsonify({
                 "status": "404",
-                "message": "The phone number should be a string of only digits"
+                "message": "The phone number should be a string of only digits from 0 to 9"
             })
         if not re.match(r"[^@.]+@[A-Za-z]+\.[a-z]+", email):
             return jsonify({
