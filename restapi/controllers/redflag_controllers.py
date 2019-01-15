@@ -62,7 +62,7 @@ class RedFlagsController():
                 "message": "Successfully deleted"
             })
         return jsonify({
-            "status": 200,
+            "status": 404,
             "message": "That redflag id is not found"
         })
     def update_redflag_status(self, redflag_id):
@@ -71,12 +71,12 @@ class RedFlagsController():
             red.status = request.get_json('status')
             return jsonify({
                 "status": 200,
-                "message": "Updated red-flag record's location",
-                "new status": red.location.get('status')
+                "id": red.redflag_id,
+                "message": "Updated red-flag record's status"
             })
 
         return jsonify({
-            "status": 200,
+            "status": 404,
             "message": "That red-flag id is not found",
 
 
@@ -87,15 +87,13 @@ class RedFlagsController():
             red.location = request.get_json('location')
             return jsonify({
                 "status": 200,
-                "message": "Updated red-flag record's location",
-                "new location": red.location.get('location')
+                "id": red.redflag_id,
+                "message": "Updated red-flag record's location"
             })
 
         return jsonify({
-            "status": 200,
-            "message": "That red-flag id is not found",
-
-
+            "status": 404,
+            "message": "That red-flag id is not found"
         })
 
     def update_redflag_comment(self, redflag_id):
@@ -104,13 +102,11 @@ class RedFlagsController():
             red.comment = request.get_json('comment')
             return jsonify({
                 "status": 200,
-                "message": "Updated red-flag record's comment",
-                "new comment": red.location.get('comment')
+                "id": red.redflag_id,
+                "message": "Updated red-flag record's comment"
             })
 
         return jsonify({
-            "status": 200,
-            "message": "That red-flag id is not found",
-
-
+            "status": 404,
+            "message": "That red-flag id is not found"
         })
