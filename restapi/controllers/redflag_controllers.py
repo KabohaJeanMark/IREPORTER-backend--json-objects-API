@@ -3,7 +3,10 @@ from datetime import datetime
 from restapi.models.redflag_models import Redflags, BaseRedFlags, RedFlagsDb
 
 
+
 IncidentsList = RedFlagsDb()
+
+
 
 
 class RedFlagsController():
@@ -22,6 +25,11 @@ class RedFlagsController():
         videos = data.get("videos")
         comment = data.get("comment")
         location = data.get("location")
+
+        statuses = ['under investigation', 'resolved']
+
+        if not status in statuses:
+            return jsonify({})
 
         myredflag = Redflags(BaseRedFlags(
             created_by, incident_type), redflag_id, status, images, videos, comment, location)
@@ -45,13 +53,26 @@ class RedFlagsController():
         })
 
     def get_a_single_redflag(self, redflag_id):
+        print(redflag_id)
+        print(validation.is_id_int(redflag_id))
 
+        if validation.is_id_int(redflag_id) == False:
+            return jsonify({
+                "status": 400,
+                "message": "The id should be an integer"
+            })
         red = IncidentsList.get_one_redflag_by_id(redflag_id)
+        if red:
 
-        return jsonify({
-            "status": 200,
-            "data": red.to_json()
-        })
+            return jsonify({
+                "status": 200,
+                "data": red.to_json()
+            })
+        else:
+            return jsonify({
+                "status": 400,
+                "message": "That red-flag id is not found"
+            })
 
     def delete_redflag(self, redflag_id):
         red = IncidentsList.get_one_redflag_by_id(redflag_id)
