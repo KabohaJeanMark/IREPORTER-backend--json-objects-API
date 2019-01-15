@@ -65,6 +65,7 @@ class RedFlagsController():
             "status": 404,
             "message": "That redflag id is not found"
         })
+
     def update_redflag_status(self, redflag_id):
         red = IncidentsList.get_one_redflag_by_id(redflag_id)
         if red:
@@ -81,6 +82,7 @@ class RedFlagsController():
 
 
         })
+
     def update_redflag_location(self, redflag_id):
         red = IncidentsList.get_one_redflag_by_id(redflag_id)
         if red:
