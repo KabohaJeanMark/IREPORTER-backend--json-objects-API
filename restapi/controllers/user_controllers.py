@@ -1,5 +1,6 @@
 from flask import request, jsonify
 from restapi.models.user_models import Users, BaseUsers, UsersDB
+import re
 
 UsersList = UsersDB()
 
@@ -15,14 +16,38 @@ class UserController:
         first_name = data["first_name"]
         last_name = data["last_name"]
         other_names = data["other_names"]
-        phone_number = data.get("phone_number")
+        phone_number = str(data.get("phone_number"))
         user_id = len(UsersList.user_list) + 1
         user_name = data.get("user_name")
+        str(user_name).replace(" ", "")
         email = data.get("email")
         is_admin = data.get("is_admin")
 
+        if not isinstance(first_name, str) or not isinstance(last_name, str) or not isinstance(other_names,str):
+            return jsonify({
+                "status": "404",
+                "message": "All the names have to be of type string"
+            })
+        
+        if len(phone_number) < 10:
+            return jsonify({
+                "status": "404",
+                "message": "The phone number should be a string of atleast 10 digits"
+            })
+        if not re.match("[0-9]", phone_number):
+            return jsonify({
+                "status": "404",
+                "message": "The phone number should be a string of only digits"
+            })
+        if not re.match(r"[^@.]+@[A-Za-z]+\.[a-z]+", email):
+            return jsonify({
+                "status": "404",
+                "message": "The email address is in the wrong format"
+            })
+            
+
         myUser = Users(BaseUsers(
-            first_name, last_name, other_names, phone_number), user_id, user_name, email, is_admin)
+            first_name, last_name, other_names, phone_number), user_id, email, user_name, is_admin)
 
         UsersList.add_user(myUser)
         return jsonify({
