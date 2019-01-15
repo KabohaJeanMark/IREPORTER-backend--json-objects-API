@@ -2,18 +2,18 @@ import datetime
 
 
 class BaseRedFlags(): #use composition to reduce arguments
-    def __init__(self, created_by, status, incident_type):
+    def __init__(self, created_by, incident_type):
         
         self.created_by = created_by
-        self.status = status
         self.incident_type = incident_type
         self.created_on = datetime.datetime.now()
 
 
 class Redflags():
-    def __init__(self,base, redflag_id,images,videos,comment, location):
+    def __init__(self,base, redflag_id, status, images,videos,comment, location):
         self.base = base
         self.redflag_id = redflag_id
+        self.status = status
         self.images = images
         self.videos = videos
         self.comment = comment
@@ -25,15 +25,15 @@ class Redflags():
         return{
                 
                 "created by": self.base.created_by,
-                "status":self.base.status,
                 "incident type":self.base.incident_type,
                 "id": self.redflag_id,
+                "sstatus": self.status,
                 "images": self.images,
                 "videos": self.videos,
                 "comments":self.comment,
                 "location":self.location,
                 "created on":datetime.datetime.now()
-               
+
             }
         
 class RedFlagsDb():

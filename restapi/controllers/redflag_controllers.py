@@ -15,16 +15,16 @@ class RedFlagsController():
         data = request.get_json()
 
         created_by = data.get("created_by")
-        status = data.get("status")
         incident_type = data.get("incident_type")
         redflag_id = len(IncidentsList.incident_list) + 1
+        status = data.get("status")
         images = data.get("images")
         videos = data.get("videos")
         comment = data.get("comment")
         location = data.get("location")
 
         myredflag = Redflags(BaseRedFlags(
-            created_by, status, incident_type), redflag_id, images, videos, comment, location)
+            created_by, incident_type), redflag_id, status, images, videos, comment, location)
 
         IncidentsList.add_redflag(myredflag)
         return jsonify({
@@ -65,7 +65,22 @@ class RedFlagsController():
             "status": 200,
             "message": "That redflag id is not found"
         })
+    def update_redflag_status(self, redflag_id):
+        red = IncidentsList.get_one_redflag_by_id(redflag_id)
+        if red:
+            red.status = request.get_json('status')
+            return jsonify({
+                "status": 200,
+                "message": "Updated red-flag record's location",
+                "new status": red.location.get('status')
+            })
 
+        return jsonify({
+            "status": 200,
+            "message": "That red-flag id is not found",
+
+
+        })
     def update_redflag_location(self, redflag_id):
         red = IncidentsList.get_one_redflag_by_id(redflag_id)
         if red:

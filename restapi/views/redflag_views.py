@@ -34,6 +34,6 @@ def update_redflags_location(redflag_id):
 def update_redflags_comment(redflag_id):
     return myRedflag.update_redflag_comment(redflag_id), 200
 
-@BPrint.route("/redflags/<int:redflag_id>", methods=["PUT"])
-def update_redflag(redflag_id):
-    return myRedflag.update_redflag(redflag_id), 200
+@BPrint.route("/redflags/<int:redflag_id>", methods=["PATCH"])
+def update_redflags_status(redflag_id):
+    return myRedflag.update_redflag_status(redflag_id), 200
