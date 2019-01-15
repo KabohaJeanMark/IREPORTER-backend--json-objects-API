@@ -8,7 +8,7 @@ myRedflag = RedFlagsController()
 
 @BPrint.route("/")
 def index():
-    return jsonify ("Welcome to Ireporter")
+    return jsonify ({"Message":"Welcome to Ireporter"})
 
 @BPrint.route("/redflags", methods=["POST"])
 def add_redflag():
