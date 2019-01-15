@@ -15,21 +15,41 @@ class RedFlagsController():
         pass
 
     def create_redflag(self):
+        if request.content_type != 'application/json':
+            return jsonify({
+                "status":"404", 
+                "message":"Content-type must be in json"  
+            })
         data = request.get_json()
-
         created_by = data.get("created_by")
         incident_type = data.get("incident_type")
-        redflag_id = len(IncidentsList.incident_list) + 1
         status = data.get("status")
+        redflag_id = len(IncidentsList.incident_list) + 1
         images = data.get("images")
         videos = data.get("videos")
         comment = data.get("comment")
         location = data.get("location")
 
-        statuses = ['under investigation', 'resolved']
+        if not isinstance(location, dict):
+            return jsonify({
+                "status": "404",
+                "message": "location should be a dictionary of latitude and logitude coordinates"
+            })
+        if not isinstance (images, list) or not isinstance (videos, list):
+            return jsonify({
+                "status": "404",
+                "message": "Images or videos should be in lists"
+            })
 
-        if not status in statuses:
-            return jsonify({})
+        if not isinstance (comment, str) or not isinstance (status, str):
+            return jsonify({
+                "status": "404",
+                "message": "Images or videos should be in lists"
+            })
+        
+            
+
+
 
         myredflag = Redflags(BaseRedFlags(
             created_by, incident_type), redflag_id, status, images, videos, comment, location)
@@ -43,7 +63,8 @@ class RedFlagsController():
 
             }]
 
-        })
+         })
+
 
     def get_all_redflags(self):
         return jsonify({
