@@ -54,7 +54,7 @@ class TestEndPoints(unittest.TestCase):
             "images": "image1",
             "videos": "video1",
             "comment": "corruption",
-            "location": {"latitude": "98899", "longitude": "888484"}
+            "location": {"latitude": "98799", "longitude": "888484"}
 
         }
         res = self.app.post(
