@@ -42,6 +42,7 @@ class RedFlagsController():
                 "status": "404",
                 "message": "the incident should be either a redflag or intervention"
             })
+        
 
         if not isinstance(location, dict):
             return jsonify({
