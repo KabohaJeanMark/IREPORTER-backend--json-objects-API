@@ -32,7 +32,7 @@ class TestEndPoints(unittest.TestCase):
             "images": ["image1", "image2"],
             "videos": ["video1", "video2"],
             "comment": "corruption",
-            "location": {"latitude": "98899", "longitude": "888484"}
+            "location": {"latitude": "98854","longitude": "888484"}
 
 
 
