@@ -9,7 +9,7 @@ install:
   - pip install coverage
 
 script:
-  -pytest --cov
+  -nosetests --with-coverage
 
 after success:
   -coveralls
