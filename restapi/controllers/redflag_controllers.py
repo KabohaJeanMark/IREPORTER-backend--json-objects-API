@@ -21,7 +21,7 @@ class RedFlagsController():
                 "message":"Content-type must be in json"  
             })
         data = request.get_json()
-        created_by = data.get("created_by")
+        created_by = request.headers['user_id']
         incident_type = str(data.get("incident_type")).lower()
         status = "draft"
         redflag_id = len(IncidentsList.incident_list) + 1
