@@ -3,10 +3,7 @@ from datetime import datetime
 from restapi.models.redflag_models import Redflags, BaseRedFlags, RedFlagsDb
 
 
-
 IncidentsList = RedFlagsDb()
-
-
 
 
 class RedFlagsController():
@@ -17,8 +14,8 @@ class RedFlagsController():
     def create_redflag(self):
         if request.content_type != 'application/json':
             return jsonify({
-                "status":"404", 
-                "message":"Content-type must be in json"  
+                "status": "404",
+                "message": "Content-type must be in json"
             })
         data = request.get_json()
         created_by = request.headers['user_id']
@@ -30,40 +27,35 @@ class RedFlagsController():
         comment = data.get("comment")
         location = data.get("location")
 
-        types_of_incidents = ['redflag','intervention']
+        types_of_incidents = ['redflag', 'intervention']
 
         if not incident_type or not status or not images or not videos or not comment or not location:
             return jsonify({
                 "status": "404",
                 "message": "Required fields are missing. Either created_by, incident_type, images, videos, comment or location"
-            }) 
+            })
         if incident_type not in types_of_incidents:
             return jsonify({
                 "status": "404",
                 "message": "the incident should be either a redflag or intervention"
             })
-        
 
         if not isinstance(location, dict):
             return jsonify({
                 "status": "404",
                 "message": "location should be a dictionary of latitude and logitude coordinates"
             })
-        if not isinstance (images, list) or not isinstance (videos, list):
+        if not isinstance(images, list) or not isinstance(videos, list):
             return jsonify({
                 "status": "404",
                 "message": "Images or videos should be in lists"
             })
 
-        if not isinstance (comment, str):
+        if not isinstance(comment, str):
             return jsonify({
                 "status": "404",
                 "message": "The comment should be of type string"
             })
-        
-            
-
-
 
         myredflag = Redflags(BaseRedFlags(
             created_by, incident_type), redflag_id, status, images, videos, comment, location)
@@ -77,8 +69,7 @@ class RedFlagsController():
 
             }]
 
-         })
-
+        })
 
     def get_all_redflags(self):
         return jsonify({
@@ -97,7 +88,7 @@ class RedFlagsController():
             })
         else:
             return jsonify({
-            
+
                 "status": 400,
                 "message": "That red-flag id is not found"
             })
@@ -119,20 +110,20 @@ class RedFlagsController():
         red = IncidentsList.get_one_redflag_by_id(redflag_id)
         if red:
             resp = request.get_json()
-            stat = resp.get('status') 
+            stat = resp.get('status')
             print(stat)
             valid_statuses = ["under investigation", "rejected", "resolved"]
             if stat not in valid_statuses:
                 return jsonify({
                     "status": 400,
                     "message": "The updated status has to be either 'under investigation' , 'resolved' or 'rejected' "
-                })  
+                })
             red.status = stat
             return jsonify({
-                    "status": 200,
-                    "id": red.redflag_id,
-                    "message": "Updated red-flag record's status"
-                })        
+                "status": 200,
+                "id": red.redflag_id,
+                "message": "Updated red-flag record's status"
+            })
 
         return jsonify({
             "status": 404,
@@ -149,9 +140,9 @@ class RedFlagsController():
                 })
             red.location = request.get_json('location')
             return jsonify({
-                    "status": 200,
-                    "id": red.redflag_id,
-                    "message": "Updated red-flag record's location"
+                "status": 200,
+                "id": red.redflag_id,
+                "message": "Updated red-flag record's location"
             })
 
         return jsonify({
