@@ -28,29 +28,44 @@ class TestEndPoints(unittest.TestCase):
         data = {
 
             "incident_type": "Redflag",
-            "status": "pending",
             "images": ["image1", "image2"],
             "videos": ["video1", "video2"],
             "comment": "corruption",
-            "location": {"latitude": "98854","longitude": "888484"}
+            "location": {"latitude": "98854", "longitude": "888484"}
 
 
 
         }
 
         res = self.app.post(
-            '/api/v1/redflags', content_type='application/json', data=json.dumps(data), headers = {'user_id': 1})
+            '/api/v1/redflags', content_type='application/json', data=json.dumps(data), headers={'user_id': 1})
         self.assertEqual(res.status_code, 201)
         response = json.loads(res.data.decode())
         d = response['data']
         self.assertEqual(response['status'], 201)
         self.assertEqual(d[0]['message'], "Created red-flag record")
 
+    def test_redflag_wrong_incident_type(self):
+        """A test for checking the post incident type """
+        data = {
+
+            "incident_type": "corruption",
+            "images": ["image1", "image2"],
+            "videos": ["video1", "video2"],
+            "comment": "corruption",
+            "location": {"latitude": "98854", "longitude": "888484"}
+        }
+        res = self.app.post(
+            '/api/v1/redflags', content_type='application/json', data=json.dumps(data), headers={'user_id': 1})
+        response = json.loads(res.data.decode())
+        self.assertEqual(response['status'], "404")
+        self.assertEqual(response['message'],
+                         "the incident should be either a redflag or intervention")
+
     def test_redflag_post_invalid_images_or_videos(self):
         """ A test to check out the list validation"""
         data = {
             "incident_type": "Redflag",
-            "status": "pending",
             "images": "image1",
             "videos": "video1",
             "comment": "corruption",
@@ -58,7 +73,7 @@ class TestEndPoints(unittest.TestCase):
 
         }
         res = self.app.post(
-            '/api/v1/redflags', content_type='application/json', data=json.dumps(data), headers = {'user_id': 1})
+            '/api/v1/redflags', content_type='application/json', data=json.dumps(data), headers={'user_id': 1})
         response = json.loads(res.data.decode())
         self.assertEqual(response['status'], "404")
         self.assertEqual(response['message'],
@@ -68,7 +83,6 @@ class TestEndPoints(unittest.TestCase):
         """A test to check out the location validation"""
         data = {
             "incident_type": "Redflag",
-            "status": "pending",
             "images": "image1",
             "videos": "video1",
             "comment": "corruption",
@@ -76,7 +90,7 @@ class TestEndPoints(unittest.TestCase):
         }
 
         res = self.app.post(
-            '/api/v1/redflags', content_type='application/json', data=json.dumps(data), headers = {'user_id': 1})
+            '/api/v1/redflags', content_type='application/json', data=json.dumps(data), headers={'user_id': 1})
         response = json.loads(res.data.decode())
         self.assertEqual(response['status'], "404")
         self.assertEqual(
@@ -94,7 +108,7 @@ class TestEndPoints(unittest.TestCase):
         }
 
         res = self.app.post(
-            '/api/v1/redflags', content_type='application/json', data=json.dumps(data), headers = {'user_id': 1})
+            '/api/v1/redflags', content_type='application/json', data=json.dumps(data), headers={'user_id': 1})
         response = json.loads(res.data.decode())
         self.assertEqual(response['status'], "404")
         self.assertEqual(
@@ -104,14 +118,13 @@ class TestEndPoints(unittest.TestCase):
         """A test to confirm missing fields"""
         data = {
             "incident_type": "Redflag",
-            "status": "pending",
             "images": ["image1", "image2"],
             "comment": "corruption",
             "location": {"latitude": "98899", "longitude": "888484"}
         }
 
         res = self.app.post(
-            '/api/v1/redflags', content_type='application/json', data=json.dumps(data), headers = {'user_id': 1})
+            '/api/v1/redflags', content_type='application/json', data=json.dumps(data), headers={'user_id': 1})
         response = json.loads(res.data.decode())
         self.assertEqual(response['status'], "404")
         self.assertEqual(
