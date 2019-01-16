@@ -12,5 +12,5 @@ script:
   - pytest --cov
 
 after success:
-  -coveralls
+  - coveralls
 
