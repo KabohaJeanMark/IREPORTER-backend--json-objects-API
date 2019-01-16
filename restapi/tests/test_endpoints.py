@@ -39,7 +39,7 @@ class TestEndPoints(unittest.TestCase):
         }
 
         res = self.app.post(
-            '/api/v1/redflags', content_type='application/json', data=json.dumps(data))
+            '/api/v1/redflags', content_type='application/json', data=json.dumps(data), headers = {'user_id': 1})
         self.assertEqual(res.status_code, 201)
         response = json.loads(res.data.decode())
         d = response['data']
@@ -58,7 +58,7 @@ class TestEndPoints(unittest.TestCase):
 
         }
         res = self.app.post(
-            '/api/v1/redflags', content_type='application/json', data=json.dumps(data))
+            '/api/v1/redflags', content_type='application/json', data=json.dumps(data), headers = {'user_id': 1})
         response = json.loads(res.data.decode())
         self.assertEqual(response['status'], "404")
         self.assertEqual(response['message'],
@@ -76,7 +76,7 @@ class TestEndPoints(unittest.TestCase):
         }
 
         res = self.app.post(
-            '/api/v1/redflags', content_type='application/json', data=json.dumps(data))
+            '/api/v1/redflags', content_type='application/json', data=json.dumps(data), headers = {'user_id': 1})
         response = json.loads(res.data.decode())
         self.assertEqual(response['status'], "404")
         self.assertEqual(
@@ -94,7 +94,7 @@ class TestEndPoints(unittest.TestCase):
         }
 
         res = self.app.post(
-            '/api/v1/redflags', content_type='application/json', data=json.dumps(data))
+            '/api/v1/redflags', content_type='application/json', data=json.dumps(data), headers = {'user_id': 1})
         response = json.loads(res.data.decode())
         self.assertEqual(response['status'], "404")
         self.assertEqual(
@@ -111,7 +111,7 @@ class TestEndPoints(unittest.TestCase):
         }
 
         res = self.app.post(
-            '/api/v1/redflags', content_type='application/json', data=json.dumps(data))
+            '/api/v1/redflags', content_type='application/json', data=json.dumps(data), headers = {'user_id': 1})
         response = json.loads(res.data.decode())
         self.assertEqual(response['status'], "404")
         self.assertEqual(
