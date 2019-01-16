@@ -135,11 +135,16 @@ class RedFlagsController():
     def update_redflag_location(self, redflag_id):
         red = IncidentsList.get_one_redflag_by_id(redflag_id)
         if red:
+            if red.status != "draft":
+                return jsonify({
+                    "status": 400,
+                    "message": "The admin has updated the status of the redflag. You can not edit the location."
+                })
             red.location = request.get_json('location')
             return jsonify({
-                "status": 200,
-                "id": red.redflag_id,
-                "message": "Updated red-flag record's location"
+                    "status": 200,
+                    "id": red.redflag_id,
+                    "message": "Updated red-flag record's location"
             })
 
         return jsonify({

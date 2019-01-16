@@ -28,7 +28,6 @@ class TestEndPoints(unittest.TestCase):
         data = {
 
             "incident_type": "Redflag",
-            "status": "pending",
             "images": ["image1", "image2"],
             "videos": ["video1", "video2"],
             "comment": "corruption",
