@@ -8,6 +8,7 @@ import json
 
 class TestEndPoints(unittest.TestCase):
     """ Class for testing the endpoints and their validations """
+
     def setUp(self):
         self.app = app.test_client()
 
@@ -129,85 +130,87 @@ class TestEndPoints(unittest.TestCase):
 
     def test_create_a_user(self):
         """ Test route for crearing a user  """
-        data= {
-            "first_name":"Jean",
+        data = {
+            "first_name": "Jean",
             "last_name": "Kaboha",
             "other_names": "Mark",
-            "email":"kjm@yahoo.com",
-            "phone_number":"0758675645",
+            "email": "kjm@yahoo.com",
+            "phone_number": "0758675645",
             "user name": "kjmark"
-          
-}
+
+        }
         res = self.app.post(
             '/api/v1/users', content_type='application/json', data=json.dumps(data))
         response = json.loads(res.data.decode())
-        self.assertEqual(response['status'] , 201)
+        self.assertEqual(response['status'], 201)
         data_message = response['data']
-        self.assertEqual(data_message[0]['message'], "Created new user" )
+        self.assertEqual(data_message[0]['message'], "Created new user")
 
     def test_create_user_invalid_email(self):
         """ test route for invalid email validation """
-        data= {
-            "first_name":"Jean",
+        data = {
+            "first_name": "Jean",
             "last_name": "Kaboha",
             "other_names": "Mark",
-            "email":"kjmcom",
-            "phone_number":"0758675645",
+            "email": "kjmcom",
+            "phone_number": "0758675645",
             "user name": "kjmark"
-          }
+        }
         res = self.app.post(
             '/api/v1/users', content_type='application/json', data=json.dumps(data))
         response = json.loads(res.data.decode())
-        self.assertEqual(response['status'] , "404")
-        self.assertEqual(response['message'],"The email address is in the wrong format")
-
+        self.assertEqual(response['status'], "404")
+        self.assertEqual(response['message'],
+                         "The email address is in the wrong format")
 
     def test_post_user_names_valid(self):
-        data={"first_name":"Jean",
-            "last_name": 89008,
-            "other_names": 78,
-            "email":"kjm@yahoo.com",
-            "phone_number":"0758675645",
-            "user name": "kjmark"
-          
-}
+        data = {"first_name": "Jean",
+                "last_name": 89008,
+                "other_names": 78,
+                "email": "kjm@yahoo.com",
+                "phone_number": "0758675645",
+                "user name": "kjmark"
+
+                }
         res = self.app.post(
             '/api/v1/users', content_type='application/json', data=json.dumps(data))
         response = json.loads(res.data.decode())
-        self.assertEqual(response['status'] , "404")
-        self.assertEqual(response['message'],"All the names have to be of type string")
-
+        self.assertEqual(response['status'], "404")
+        self.assertEqual(response['message'],
+                         "All the names have to be of type string")
 
     def test_user_phone_number_length_valid(self):
-        data={
-            "first_name":"Jean",
+        data = {
+            "first_name": "Jean",
             "last_name": "Kaboha",
             "other_names": "Mark",
-            "email":"kjm@yahoo.com",
-            "phone_number":"075645",
+            "email": "kjm@yahoo.com",
+            "phone_number": "075645",
             "user name": "kjmark"
 
         }
         res = self.app.post(
             '/api/v1/users', content_type='application/json', data=json.dumps(data))
         response = json.loads(res.data.decode())
-        self.assertEqual(response['status'] , "404")
-        self.assertEqual(response['message'],"The phone number should be a string of atleast 10 digits")
+        self.assertEqual(response['status'], "404")
+        self.assertEqual(
+            response['message'], "The phone number should be a string of atleast 10 digits")
 
     def test_phone_number_digits(self):
-        data={
-            "first_name":"Jean",
+        data = {
+            "first_name": "Jean",
             "last_name": "Kaboha",
             "other_names": "Mark",
-            "email":"kjm@yahoo.com",
-            "phone_number":"ghfjffiffgcg",
+            "email": "kjm@yahoo.com",
+            "phone_number": "ghfjffiffgcg",
             "user name": "kjmark"
         }
         res = self.app.post(
             '/api/v1/users', content_type='application/json', data=json.dumps(data))
         response = json.loads(res.data.decode())
-        self.assertEqual(response['status'] , "404")
-        self.assertEqual(response['message'],"The phone number should be a string of only digits from 0 to 9")
+        self.assertEqual(response['status'], "404")
+        self.assertEqual(
+            response['message'], "The phone number should be a string of only digits from 0 to 9")
 
 
 if __name__ == '__main__':
