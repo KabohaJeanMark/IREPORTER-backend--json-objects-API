@@ -118,18 +118,25 @@ class RedFlagsController():
     def update_redflag_status(self, redflag_id):
         red = IncidentsList.get_one_redflag_by_id(redflag_id)
         if red:
-            red.status = request.get_json('status')
+            resp = request.get_json()
+            stat = resp.get('status') 
+            print(stat)
+            valid_statuses = ["under investigation", "rejected", "resolved"]
+            if stat not in valid_statuses:
+                return jsonify({
+                    "status": 400,
+                    "message": "The updated status has to be either 'under investigation' , 'resolved' or 'rejected' "
+                })  
+            red.status = stat
             return jsonify({
-                "status": 200,
-                "id": red.redflag_id,
-                "message": "Updated red-flag record's status"
-            })
+                    "status": 200,
+                    "id": red.redflag_id,
+                    "message": "Updated red-flag record's status"
+                })        
 
         return jsonify({
             "status": 404,
-            "message": "That red-flag id is not found",
-
-
+            "message": "That red-flag id is not found"
         })
 
     def update_redflag_location(self, redflag_id):
@@ -155,6 +162,11 @@ class RedFlagsController():
     def update_redflag_comment(self, redflag_id):
         red = IncidentsList.get_one_redflag_by_id(redflag_id)
         if red:
+            if red.status != "draft":
+                return jsonify({
+                    "status": 400,
+                    "message": "The admin has updated the status of the redflag. You can not edit the comment."
+                })
             red.comment = request.get_json('comment')
             return jsonify({
                 "status": 200,

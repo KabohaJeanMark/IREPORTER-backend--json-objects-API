@@ -49,7 +49,6 @@ class TestEndPoints(unittest.TestCase):
         """ A test to check out the list validation"""
         data = {
             "incident_type": "Redflag",
-            "status": "pending",
             "images": "image1",
             "videos": "video1",
             "comment": "corruption",
@@ -67,7 +66,6 @@ class TestEndPoints(unittest.TestCase):
         """A test to check out the location validation"""
         data = {
             "incident_type": "Redflag",
-            "status": "pending",
             "images": "image1",
             "videos": "video1",
             "comment": "corruption",
@@ -103,7 +101,6 @@ class TestEndPoints(unittest.TestCase):
         """A test to confirm missing fields"""
         data = {
             "incident_type": "Redflag",
-            "status": "pending",
             "images": ["image1", "image2"],
             "comment": "corruption",
             "location": {"latitude": "98899", "longitude": "888484"}
