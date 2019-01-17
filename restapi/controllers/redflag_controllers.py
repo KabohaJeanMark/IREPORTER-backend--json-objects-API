@@ -99,11 +99,11 @@ class RedFlagsController():
             IncidentsList.incident_list.remove(red)
             return jsonify({
                 "status": 200,
-                "message": "Successfully deleted"
+                "message": "red-flag record has been deleted"
             })
         return jsonify({
             "status": 404,
-            "message": "That redflag id is not found"
+            "message": "That red-flag id is not found"
         })
 
     def update_redflag_status(self, redflag_id):
