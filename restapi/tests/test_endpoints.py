@@ -187,29 +187,48 @@ class TestEndPoints(unittest.TestCase):
             '/api/v1/redflags/{}'.format(1))
         self.assertEqual(response.status_code, 200)
 
-    def test_update_redflag_status(self):
+    def test_update_redflags_status(self):
         """ Test route for updating the status of the redflag"""
         data = {
+            "images": ["image1", "image2"],
+            "videos": ["video1", "video2"],
+            "comment": "corruption",
+            "location": {"latitude": "98799", "longitude": "888484"}
+        }
+        res = self.app.post(
+            '/api/v1/redflags', content_type='application/json', data=json.dumps(data), headers={'user_id': 1})
+        self.assertEqual(res.status_code, 201)
+        patchdata = {
             "status": "resolved"
         }
-        res = self.app.patch(
-            '/api/v1/redflags/1/status', content_type='application/json', data=json.dumps(data), headers={'user_id': 1})
-        response = json.loads(res.data.decode())
-        self.assertEqual(response['status'], 200)
+        resp = self.app.patch(
+            '/api/v1/redflags/{}/status'.format(1), content_type='application/json', data=json.dumps(patchdata), headers={'user_id': 1})
+        self.assertEqual(resp.status_code, 200)
+        response = json.loads(resp.data.decode())
         self.assertEqual(
             response['message'], "Updated red-flag record's status")
 
     def test_update_redflag_invalid_status(self):
-        """ Test route for updating with invalid status of the redflag"""
+        """ Test route for updating the invalid status of the redflag"""
         data = {
-            "status": "corrupt"
+            "images": ["image1", "image2"],
+            "videos": ["video1", "video2"],
+            "comment": "corruption",
+            "location": {"latitude": "98799", "longitude": "888484"}
         }
-        res = self.app.patch(
-            '/api/v1/redflags/1/status', content_type='application/json', data=json.dumps(data), headers={'user_id': 1})
-        response = json.loads(res.data.decode())
-        self.assertEqual(response['status'], 400)
+        res = self.app.post(
+            '/api/v1/redflags', content_type='application/json', data=json.dumps(data), headers={'user_id': 1})
+        self.assertEqual(res.status_code, 201)
+        invalid_status = {
+            "status": "corruption"
+        }
+        resp = self.app.patch(
+            '/api/v1/redflags/{}/status'.format(1), content_type='application/json', data=json.dumps(invalid_status), headers={'user_id': 1})
+        self.assertEqual(resp.status_code, 200)
+        response = json.loads(resp.data.decode())
         self.assertEqual(
             response['message'], "The updated status has to be either 'under investigation' , 'resolved' or 'rejected' ")
+        self.assertEqual(response['status'], 400)
 
     def test_update_redflag_location(self):
         """ Test route for updating redflag location"""
@@ -219,12 +238,67 @@ class TestEndPoints(unittest.TestCase):
             "comment": "corruption",
             "location": {"latitude": "98799", "longitude": "888484"}
         }
-        res = self.app.patch(
-            '/api/v1/redflags/1/location', content_type='application/json', data=json.dumps(data), headers={'user_id': 1})
-        response = json.loads(res.data.decode())
+        res = self.app.post(
+            '/api/v1/redflags', content_type='application/json', data=json.dumps(data), headers={'user_id': 1})
+
+        self.assertEqual(res.status_code, 201)
+        new_location = {
+            "location": {"latitude": "980799", "longitude": "888484"}
+        }
+        resp = self.app.patch(
+            '/api/v1/redflags/{}/location'.format(1), content_type='application/json', data=json.dumps(new_location), headers={'user_id': 1})
+        response = json.loads(resp.data.decode())
         self.assertEqual(response['status'], 200)
         self.assertEqual(
             response['message'], "Updated red-flag record's location")
+
+    def test_update_redflag_comment(self):
+        """ Test route for updating redflag comment"""
+        data = {
+            "images": ["image1", "image2"],
+            "videos": ["video1", "video2"],
+            "comment": "corruption",
+            "location": {"latitude": "98799", "longitude": "888484"}
+        }
+        res = self.app.post(
+            '/api/v1/redflags', content_type='application/json', data=json.dumps(data), headers={'user_id': 1})
+
+        self.assertEqual(res.status_code, 201)
+        new_comment = {
+            "comment": "Government worker found stealing project funds"
+        }
+        resp = self.app.patch(
+            '/api/v1/redflags/{}/comment'.format(1), content_type='application/json', data=json.dumps(new_comment), headers={'user_id': 1})
+        response = json.loads(resp.data.decode())
+        self.assertEqual(response['status'], 200)
+        self.assertEqual(
+            response['message'], "Updated red-flag record's comment")
+
+    def test_update_redflag_location_after_admin_update_status(self):
+        data = {
+            "images": ["image1", "image2"],
+            "videos": ["video1", "video2"],
+            "comment": "corruption",
+            "location": {"latitude": "98799", "longitude": "888484"}
+        }
+        res = self.app.post(
+            '/api/v1/redflags', content_type='application/json', data=json.dumps(data), headers={'user_id': 1})
+        self.assertEqual(res.status_code, 201)
+        admin_status_update = {
+            "status": "resolved"
+        }
+        resp = self.app.patch(
+            '/api/v1/redflags/{}/status'.format(1), content_type='application/json', data=json.dumps(admin_status_update), headers={'user_id': 1})
+        self.assertEqual(resp.status_code, 200)
+        new_location = {
+            "location": {"latitude": "200.6", "longitude": "888484"}
+        }
+        respo = self.app.patch(
+            '/api/v1/redflags/{}/location'.format(1), content_type='application/json', data=json.dumps(new_location), headers={'user_id': 1})
+        response = json.loads(respo.data.decode())
+        self.assertEqual(
+            response['message'], "The admin has updated the status of the redflag. You can not edit the location.")
+        self.assertEqual(response['status'], 400)
 
     def test_create_a_user(self):
         """ Test route for crearing a user  """
