@@ -28,8 +28,7 @@ Clone this project to your computer on yourFolder by typing these commands in th
 $ mkdir yourFolder
 $ cd yourFolder
 $ git clone https://github.com/KabohaJeanMark/IREPORTER2
-$ cd IREPORTER
-$ git checkout develope
+$ cd IREPORTER2
 $ virtualenv venv
 $ source venv/Scripts/activate
 $ pip install -r requirements.txt
@@ -41,7 +40,7 @@ Run the command in your virtual environment
 $ pytest
 ```
 ## Deployment
-The application is hosted on Heroku [here] (https://kjmkireporter.herokuapp.com/api/v1/)
+The application is hosted on Heroku at https://kjmkireporter.herokuapp.com/api/v1/
 
 ## Endpoints
 | Endpoints                                         | Functionality                       |                             
@@ -50,7 +49,7 @@ The application is hosted on Heroku [here] (https://kjmkireporter.herokuapp.com/
 |```POST /api/v1/redflags```                        |Create red-flag record               | 
 |``` GET /api/v1/users```                           |Fetch all users                      |
 | ```GET /api/v1/redflags```                        |Fetch all red-flag records           |
-| ```GET /api/v1/redflags/<redflag_id>```           |Fetch a particular red-flag record   |            |        
+| ```GET /api/v1/redflags/<redflag_id>```           |Fetch a particular red-flag record   |                   
 | ```DELETE /api/v1/redflags/<redflag_id>```        |Delete a specific red-flag record    |
 | ```PATCH /api/v1/redflags/<redflag_id>/status  ```|Update a specific red-flag's status  |
 | ```PATCH /api/v1/redflags/<redflag_id>/location```|Update a specific red-flag location  | 
