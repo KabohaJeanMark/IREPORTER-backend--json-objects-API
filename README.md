@@ -57,8 +57,8 @@ The application is hosted on Heroku at https://kjmkireporter.herokuapp.com/api/v
 
 
 ## Built using:
-Language : Python
-Framework : Flask
+- Language : Python
+- Framework : Flask
 
 ## Author
 >Kaboha Jean Mark Kairumba.
