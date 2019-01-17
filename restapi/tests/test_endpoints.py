@@ -141,6 +141,45 @@ class TestEndPoints(unittest.TestCase):
             '/api/v1/auth/redflags/1')
         self.assertEqual(response.status_code, 404)
 
+    def test_update_redflag_status(self):
+        """ Test route for updating the status of the redflag"""
+        data = {
+            "status": "resolved"
+        }
+        res = self.app.patch(
+            '/api/v1/redflags/1/status', content_type='application/json', data=json.dumps(data), headers={'user_id': 1})
+        response = json.loads(res.data.decode())
+        self.assertEqual(response['status'], 200)
+        self.assertEqual(
+            response['message'], "Updated red-flag record's status")
+
+    def test_update_redflag_invalid_status(self):
+        """ Test route for updating with invalid status of the redflag"""
+        data = {
+            "status": "corrupt"
+        }
+        res = self.app.patch(
+            '/api/v1/redflags/1/status', content_type='application/json', data=json.dumps(data), headers={'user_id': 1})
+        response = json.loads(res.data.decode())
+        self.assertEqual(response['status'], 400)
+        self.assertEqual(
+            response['message'], "The updated status has to be either 'under investigation' , 'resolved' or 'rejected' ")
+
+    def test_update_redflag_location(self):
+        """ Test route for updating redflag location"""
+        data = {
+            "images": ["image1", "image2"],
+            "videos": ["video1", "video2"],
+            "comment": "corruption",
+            "location": {"latitude": "98799", "longitude": "888484"}
+        }
+        res = self.app.patch(
+            '/api/v1/redflags/1/location', content_type='application/json', data=json.dumps(data), headers={'user_id': 1})
+        response = json.loads(res.data.decode())
+        self.assertEqual(response['status'], 200)
+        self.assertEqual(
+            response['message'], "Updated red-flag record's location")
+
     def test_create_a_user(self):
         """ Test route for crearing a user  """
         data = {
