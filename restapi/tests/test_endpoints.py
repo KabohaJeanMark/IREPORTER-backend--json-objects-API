@@ -130,16 +130,62 @@ class TestEndPoints(unittest.TestCase):
         self.assertEqual(
             response['message'], "Required fields are missing. Either created_by, incident_type, images, videos, comment or location")
 
+    def test_delete_redflag(self):
+        data = {
+
+            "incident_type": "Redflag",
+            "images": ["image1", "image2"],
+            "videos": ["video1", "video2"],
+            "comment": "corruption",
+            "location": {"latitude": "98854", "longitude": "888484"}
+
+
+
+        }
+        res = self.app.post(
+            '/api/v1/redflags', content_type='application/json', data=json.dumps(data), headers={'user_id': 1})
+        self.assertEqual(res.status_code, 201)
+        response = self.app.delete('/api/v1/redflags/{}'.format(1))
+        self.assertEqual(response.status_code, 200)
+
     def test_get_all_redflags(self):
         """ Test route for getting all incidents """
+        data = {
+
+            "incident_type": "Redflag",
+            "images": ["image1", "image2"],
+            "videos": ["video1", "video2"],
+            "comment": "corruption",
+            "location": {"latitude": "98854", "longitude": "888484"}
+
+
+
+        }
+        res = self.app.post(
+            '/api/v1/redflags', content_type='application/json', data=json.dumps(data), headers={'user_id': 1})
+        self.assertEqual(res.status_code, 201)
         response = self.app.get('/api/v1/redflags')
         self.assertEqual(response.status_code, 200)
 
     def test_get_a_single_redflag(self):
         """ Test route for getting a single red flag """
+        data = {
+
+            "incident_type": "Redflag",
+            "images": ["image1", "image2"],
+            "videos": ["video1", "video2"],
+            "comment": "corruption",
+            "location": {"latitude": "98854", "longitude": "888484"}
+
+
+
+        }
+        res = self.app.post(
+            '/api/v1/redflags', content_type='application/json', data=json.dumps(data), headers={'user_id': 1})
+        self.assertEqual(res.status_code, 201)
         response = self.app.get(
-            '/api/v1/auth/redflags/1')
-        self.assertEqual(response.status_code, 404)
+            '/api/v1/redflags/{}'.format(1))
+        self.assertEqual(response.status_code, 200)
 
     def test_update_redflag_status(self):
         """ Test route for updating the status of the redflag"""
