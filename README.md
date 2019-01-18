@@ -43,17 +43,17 @@ $ pytest
 The application is hosted on Heroku at https://kjmkireporter.herokuapp.com/api/v1/
 
 ## Endpoints
-| Endpoints                                         | Functionality                       |                             
-| --------------------------------------------------|:-----------------------------------:|
-|```POST /api/v1/users```                           |Create a user                        |
-|```POST /api/v1/redflags```                        |Create red-flag record               | 
-|``` GET /api/v1/users```                           |Fetch all users                      |
-| ```GET /api/v1/redflags```                        |Fetch all red-flag records           |
-| ```GET /api/v1/redflags/<redflag_id>```           |Fetch a particular red-flag record   |                   
-| ```DELETE /api/v1/redflags/<redflag_id>```        |Delete a specific red-flag record    |
-| ```PATCH /api/v1/redflags/<redflag_id>/status  ```|Update a specific red-flag's status  |
-| ```PATCH /api/v1/redflags/<redflag_id>/location```|Update a specific red-flag location  | 
-| ```PATCH /api/v1/redflags/<redflag_id>/comment``` |Update a specific red-flag comment   | 
+| Endpoints                                         | Functionality                           |                             
+| --------------------------------------------------|:---------------------------------------:|
+|```POST /api/v1/users```                           |```Create a user```                      |
+|```POST /api/v1/redflags```                        |```Create red-flag record```             | 
+|``` GET /api/v1/users```                           |```Fetch all users```                    |
+| ```GET /api/v1/redflags```                        |```Fetch all red-flag records```         |
+| ```GET /api/v1/redflags/<redflag_id>```           |```Fetch a particular red-flag record``` |                   
+| ```DELETE /api/v1/redflags/<redflag_id>```        |```Delete a specific red-flag record```  |
+| ```PATCH /api/v1/redflags/<redflag_id>/status  ```|```Update a specific red-flag's status```|
+| ```PATCH /api/v1/redflags/<redflag_id>/location```|```Update a specific red-flag location```| 
+| ```PATCH /api/v1/redflags/<redflag_id>/comment``` |```Update a specific red-flag comment``` | 
 
 
 ## Built using:
